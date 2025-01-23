@@ -1,0 +1,19 @@
+{
+  "name": "orbitdb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@chainsafe/libp2p-gossipsub": "^14.1.0",
+    "@orbitdb/core": "^2.4.3",
+    "@orbitdb/liftoff": "^1.1.0",
+    "blockstore-level": "^2.0.1",
+    "helia": "^5.2.0"
+  }
+}
