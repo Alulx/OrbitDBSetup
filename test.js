@@ -3,6 +3,7 @@ import { createHelia } from 'helia'
 import { createOrbitDB, IPFSAccessController } from '@orbitdb/core'
 import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
+import { multiaddr } from '@multiformats/multiaddr'
 
 const main = async () => {
   // create a random directory to avoid OrbitDB conflicts.
@@ -16,7 +17,8 @@ const main = async () => {
 
   let db
 
-  if (process.argv[2]) {
+  if (process.argv[2] && process.argv[3]) {
+    await orbitdb.ipfs.libp2p.dial(multiaddr(process.argv[3]))
     console.log('opening db', process.argv[2])
     db = await orbitdb.open(process.argv[2])
   } else {
@@ -27,6 +29,8 @@ const main = async () => {
     // would use the OrbitDBAccessController to provide mutable, "fine-grain"
     // access using grant and revoke.
     db = await orbitdb.open('my-db', { AccessController: IPFSAccessController({ write: ['*']}) })
+    
+    console.log('libp2p address', '(copy one of these addresses then dial into this node from the second node)', orbitdb.ipfs.libp2p.getMultiaddrs())
     
     // Copy this output if you want to connect a peer to another.
     console.log('my-db address', '(copy my db address and use when launching peer 2)', db.address)
